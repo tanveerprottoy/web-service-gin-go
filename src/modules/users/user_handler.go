@@ -1,4 +1,4 @@
-package handler
+package users
 
 import (
 	"biyelap.com/biyelap-core/app/core"
