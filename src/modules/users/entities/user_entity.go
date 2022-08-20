@@ -1,12 +1,8 @@
-package models
+package entities
 
 import (
-	"fmt"
-	"log"
 	"time"
-
-	"biyelap.com/biyelap-core/app/core"
-	"biyelap.com/biyelap-core/app/datum"
+	"txp/web-service-gin/src/core"
 )
 
 type User struct {
@@ -44,5 +40,3 @@ type User struct {
 	IsActive         bool             `db:"is_active" json:"isActive,omitempty"`
 	IsRegistered     bool             `db:"is_registered" json:"isRegistered,omitempty"`
 }
-
-

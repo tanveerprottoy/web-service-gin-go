@@ -1,13 +1,12 @@
 package users
 
 import (
-	"biyelap.com/biyelap-core/app/core"
-	"biyelap.com/biyelap-core/app/datum/model"
 	"encoding/json"
 	"fmt"
-	"github.com/go-chi/chi"
 	"net/http"
 	"strconv"
+	"txp/web-service-gin/src/core"
+	"txp/web-service-gin/src/data/models"
 )
 
 type UserHandler struct {
@@ -30,7 +29,7 @@ func (u *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	gender := r.URL.Query().Get("gender")
 	religion := r.URL.Query().Get("religion")
 	maritalStatus := r.URL.Query().Get("maritalStatus")
-	users := model.GetUsers(
+	users := models.GetUsers(
 		id,
 		lastId,
 		gender,
