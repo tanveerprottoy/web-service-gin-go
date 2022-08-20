@@ -2,16 +2,17 @@ package users
 
 import (
 	"fmt"
+	"log"
 	"txp/web-service-gin/src/data"
-	"txp/web-service-gin/src/modules/users/entities"
+	"txp/web-service-gin/src/modules/entities.Users/entities"
 )
 
 type UserRepositoy struct{}
 
-func Create(l *LoginBody) int {
+func (repository *UserRepositoy)Create(l *LoginBody) int {
 	lastId := 0
 	stmt, err := datum.Db.PrepareNamed(
-		"INSERT INTO users (phone)" +
+		"INSERT INTO entities.Users (phone)" +
 			"VALUES (:phone) RETURNING id",
 	)
 	if err != nil {
@@ -32,7 +33,7 @@ func (repository *UserRepositoy) FindAll() []entities.User {
 	users := []entities.User{}
 	_ = data.Db.Select(
 		&users,
-		"SELECT * FROM users WHERE id > ? AND isDeleted = ?"+
+		"SELECT * FROM entities.Users WHERE id > ? AND isDeleted = ?"+
 			" ORDER BY createdAt ASC",
 		fmt.Sprintf("%d", 0),
 		fmt.Sprintf("%t", false),
@@ -40,7 +41,7 @@ func (repository *UserRepositoy) FindAll() []entities.User {
 	return users
 }
 
-func FindOne(
+func (repository *UserRepositoy)FindOne(
 	id int,
 ) (entities.User, error) {
 	u := entities.User{}
@@ -53,12 +54,12 @@ func FindOne(
 	return u, err
 }
 
-func UpdateUser(u *User) int64 {
+func (repository *UserRepositoy)Update(u *entities.User) int64 {
 	var query string
 	u.UpdatedAt = time.Now()
 	if u.Password != "" {
 		u.PasswordHash.String = core.GenerateHashFromPassword(u.Password)
-		query = "UPDATE users SET updated_at = :updated_at," +
+		query = "UPDATE entities.Users SET updated_at = :updated_at," +
 			" first_name=:first_name.string, last_name=:last_name.string, email=:email.string," +
 			" password_hash=:password_hash.string, nid_number=:nid_number.string, age=:age.int64, dob=:dob.time, height=:height.float64, weight=:weight.int64," +
 			" created_by=:created_by.string, religion=:religion.string, short_bio=:short_bio.string," +
@@ -68,7 +69,7 @@ func UpdateUser(u *User) int64 {
 			" blood_group=:blood_group.string, marital_status=:marital_status.string, image_url=:image_url.string," +
 			" is_registered=True WHERE id = " + fmt.Sprintf("%d", u.Id)
 	} else if u.ImageUrl.String == "" {
-		query = "UPDATE users SET updated_at = :updated_at," +
+		query = "UPDATE entities.Users SET updated_at = :updated_at," +
 			" first_name=:first_name.string, last_name=:last_name.string, email=:email.string," +
 			" age=:age.int64, dob=:dob.time, height=:height.float64, weight=:weight.int64, religion=:religion.string, short_bio=:short_bio.string," +
 			" gender=:gender.string, hometown=:hometown.string, education=:education.string, profession=:profession.string, address_current=:address_current.string," +
@@ -77,7 +78,7 @@ func UpdateUser(u *User) int64 {
 			" blood_group=:blood_group.string, marital_status=:marital_status.string," +
 			" is_registered=True WHERE id = " + fmt.Sprintf("%d", u.Id)
 	} else {
-		query = "UPDATE users SET updated_at = :updated_at," +
+		query = "UPDATE entities.Users SET updated_at = :updated_at," +
 			" first_name=:first_name.string, last_name=:last_name.string, email=:email.string," +
 			" age=:age.int64, dob=:dob.time, height=:height.float64, weight=:weight.int64, religion=:religion.string, short_bio=:short_bio.string," +
 			" gender=:gender.string, hometown=:hometown.string, education=:education.string, profession=:profession.string, address_current=:address_current.string," +
@@ -86,7 +87,7 @@ func UpdateUser(u *User) int64 {
 			" blood_group=:blood_group.string, marital_status=:marital_status.string, image_url=:image_url.string," +
 			" is_registered=True WHERE id = " + fmt.Sprintf("%d", u.Id)
 	}
-	r, err := datum.Db.NamedExec(
+	r, err := data.Db.NamedExec(
 		query,
 		u,
 	)
@@ -94,5 +95,5 @@ func UpdateUser(u *User) int64 {
 		log.Println(err)
 		return 0
 	}
-	return GetRowsAffected(r)
+	return data.GetRowsAffected(r)
 }
