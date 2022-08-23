@@ -1,11 +1,11 @@
-package users
+package user
 
 import "Router"
 
 func (router *Router) registerUserRoutes(router *Router) {
-		userHandler := &users.UserHandler{}
+	userHandler := &users.UserHandler{}
 	router.Engine.Group(
-		BasePattern + UserPattern,
+		BasePattern+UserPattern,
 		func(r chi.Router) {
 			r.Post("/login", authHandler.Login)
 			r.Post("/pass-auth", authHandler.PassAuth)

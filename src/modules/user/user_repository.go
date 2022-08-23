@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"fmt"
@@ -7,9 +7,10 @@ import (
 	"txp/web-service-gin/src/modules/entities.Users/entities"
 )
 
-type UserRepositoy struct{}
+type UserRepositoy struct {
+}
 
-func (repository *UserRepositoy)Create(l *LoginBody) int {
+func (repository *UserRepositoy) Create(l *LoginBody) int {
 	lastId := 0
 	stmt, err := datum.Db.PrepareNamed(
 		"INSERT INTO entities.Users (phone)" +
@@ -41,7 +42,7 @@ func (repository *UserRepositoy) FindAll() []entities.User {
 	return users
 }
 
-func (repository *UserRepositoy)FindOne(
+func (repository *UserRepositoy) FindOne(
 	id int,
 ) (entities.User, error) {
 	u := entities.User{}
@@ -54,7 +55,7 @@ func (repository *UserRepositoy)FindOne(
 	return u, err
 }
 
-func (repository *UserRepositoy)Update(u *entities.User) int64 {
+func (repository *UserRepositoy) Update(u *entities.User) int64 {
 	var query string
 	u.UpdatedAt = time.Now()
 	if u.Password != "" {

@@ -1,4 +1,4 @@
-package users
+package user
 
 import (
 	"encoding/json"
@@ -6,37 +6,32 @@ import (
 	"net/http"
 	"strconv"
 	"txp/web-service-gin/src/core"
-	"txp/web-service-gin/src/data/models"
+	"txp/web-service-gin/src/util"
+
+	"github.com/IBM/ibm-cos-sdk-go/private/util"
+	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
+	userService *UserService
 }
 
-func (u *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
-	idParam := r.URL.Query().Get(core.UrlKeyId)
-	id, err := strconv.Atoi(idParam)
-	if err != nil {
-		core.RespondError(w, err, http.StatusBadRequest)
-		return
-	}
-	// for seek/key-set pagination
-	lastIdStr := r.URL.Query().Get(core.LastId)
-	lastId, err := strconv.Atoi(lastIdStr)
-	if err != nil {
-		core.RespondError(w, err, http.StatusBadRequest)
-		return
-	}
-	gender := r.URL.Query().Get("gender")
-	religion := r.URL.Query().Get("religion")
-	maritalStatus := r.URL.Query().Get("maritalStatus")
-	users := models.GetUsers(
-		id,
-		lastId,
-		gender,
-		religion,
-		maritalStatus,
+func (u *UserHandler) GetUsers(c *gin.Context) {
+	s, err, p := u.userService.GetUsers(
+		c,
 	)
-	core.Respond(w, users)
+	if err != nil {
+		util.RespondError(
+			s,
+			err,
+			c,
+		)
+	}
+	util.Respond(
+		s,
+		p,
+		c,
+	)
 }
 
 func (u *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {

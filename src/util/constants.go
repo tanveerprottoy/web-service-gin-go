@@ -1,4 +1,4 @@
-package core
+package util
 
 const ContextKey = "userId"
 const UrlKeyId = "id"

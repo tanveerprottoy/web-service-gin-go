@@ -8,14 +8,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-/*const (
-	host     = "john.db.elephantsql.com"
-	port     = 5432
-	user     = "dhrrrwqu"
-	password = "I8n_6Q5bV2u3Vz0TG_pBY6aoLVJWbYcA"
-	dbname   = "dhrrrwqu"
-)*/
-
  const (
 	host     = "localhost"
 	port     = 5432
