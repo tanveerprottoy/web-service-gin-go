@@ -10,13 +10,11 @@ import (
 func ErrorHandler(ctx *gin.Context) {
 	ctx.Next()
 	if len(ctx.Errors) > 0 {
-		util.RespondError(
-http.StatusInternalServerError,
-		)
 		ctx.JSON(
-			,
-			util.InternalServerError,
+			-1,
+			gin.H{"error": ctx.Errors[0].Error()},
 		)
+		return
 	}
 	ctx.JSON(
 		http.StatusInternalServerError,

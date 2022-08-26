@@ -1,26 +1,22 @@
 package user
 
-import (
-	app "txp/web-service-gin/src"
-	"txp/web-service-gin/src/util"
-)
-
-func registerUserRoutes(
-	router *app.Router,
+/* func RegisterUserRoutes(
+	router *src.Router,
 	version string,
 ) {
 	handler := &UserHandler{}
+	handler.initDependencies()
 	group := router.Engine.Group(
 		util.ApiPattern + version + util.UserPattern,
 	)
 	{
 		group.GET(
 			util.RootPattern,
-			handler.GetUsers,
+			handler.FindUsers,
 		)
 		group.GET(
 			util.RootPattern + ":id",
-			handler.GetUser,
+			handler.FindUsers,
 		)
 	}
-}
+} */

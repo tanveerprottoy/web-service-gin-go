@@ -1,48 +1,46 @@
 package user
 
 import (
-	"fmt"
-	"log"
-	"txp/web-service-gin/src/data"
-	"txp/web-service-gin/src/modules/entities.Users/entities"
+	"txp/web-service-gin/src/modules/user/dto"
+	"txp/web-service-gin/src/modules/user/entity"
 )
 
-type UserRepositoy struct {
+type UserRepository struct {
 }
 
-func (repository *UserRepositoy) Create(l *LoginBody) int {
+func (r *UserRepository) Create(p *dto.CreateUpdateUserBody) int {
 	lastId := 0
-	stmt, err := datum.Db.PrepareNamed(
-		"INSERT INTO entities.Users (phone)" +
-			"VALUES (:phone) RETURNING id",
+	/* stmt, err := data.Db.PrepareNamed(
+		"INSERT INTO users (name)" +
+			"VALUES (:name) RETURNING id",
 	)
 	if err != nil {
 		log.Println(err)
 	}
-	err = stmt.Get(&lastId, l)
+	err = stmt.Get(&lastId, p)
 	if err != nil {
 		log.Println(err)
 	}
 	err = stmt.Close()
 	if err != nil {
 		log.Println(err)
-	}
+	} */
 	return lastId
 }
 
-func (repository *UserRepositoy) FindAll() []entities.User {
-	users := []entities.User{}
-	_ = data.Db.Select(
+func (r *UserRepository) FindAll() []entity.User {
+	users := []entity.User{}
+	/* _ = data.Db.Select(
 		&users,
-		"SELECT * FROM entities.Users WHERE id > ? AND isDeleted = ?"+
+		"SELECT * FROM users WHERE id > ? AND isDeleted = ?"+
 			" ORDER BY createdAt ASC",
 		fmt.Sprintf("%d", 0),
 		fmt.Sprintf("%t", false),
-	)
+	) */
 	return users
 }
 
-func (repository *UserRepositoy) FindOne(
+/* func (repository *UserRepositoy) FindOne(
 	id int,
 ) (entities.User, error) {
 	u := entities.User{}
@@ -97,4 +95,4 @@ func (repository *UserRepositoy) Update(u *entities.User) int64 {
 		return 0
 	}
 	return data.GetRowsAffected(r)
-}
+} */

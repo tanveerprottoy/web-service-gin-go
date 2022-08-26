@@ -13,7 +13,7 @@ import (
 	port     = 5432
 	user     = "postgres"
 	password = "root"
-	dbname   = "biyelap"
+	dbname   = "web_service_gin"
 )
 
 var (

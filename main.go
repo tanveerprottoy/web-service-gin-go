@@ -3,9 +3,9 @@ package main
 import "txp/web-service-gin/src"
 
 func main() {
-	application := &app.App{}
-	application.Init()
-	application.Run()
+	app := &src.App{}
+	app.Init()
+	app.Run()
 }
 
 // Multiply just to check unit test

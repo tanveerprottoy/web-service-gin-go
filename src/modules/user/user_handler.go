@@ -1,43 +1,44 @@
 package user
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
-	"strconv"
-	"txp/web-service-gin/src/core"
+	"txp/web-service-gin/src/util"
+
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
-	userService *UserService
+	service *UserService
 }
 
-func (u *UserHandler) GetUsers(ctx *gin.Context) {
-	s, err, p := u.userService.GetUsers(
+func (u *UserHandler) InitDependencies() {
+	repo := &UserRepository{}
+	u.service = &UserService{
+		repo: repo,
+	}
+}
+
+func (u *UserHandler) FindUsers(ctx *gin.Context) {
+	p, err := u.service.FindUsers(
 		ctx,
 	)
 	if err != nil {
-		util.RespondError(
-			s,
-			err,
-			ctx,
-		)
+		return
 	}
 	util.Respond(
-		s,
+		http.StatusOK,
 		p,
 		ctx,
 	)
 }
 
-func (u *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
+/* func (u *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	userId := chi.URLParam(r, core.UrlKeyId)
 	ownIdStr := r.URL.Query().Get("own_id")
 	isAllColStr := r.URL.Query().Get("is_all_col")
 	/*ctx := request.Context()
 	key := ctx.Value(core.ContextKey).(string)
-	fmt.Println(fmt.Sprintf("Context key %s", key))*/
+	fmt.Println(fmt.Sprintf("Context key %s", key))
 	id, err := strconv.Atoi(userId)
 	if err != nil {
 		core.RespondError(w, err, http.StatusBadRequest)
@@ -107,4 +108,4 @@ func (u *UserHandler) PutUser(w http.ResponseWriter, r *http.Request) {
 	user.Id = id
 	rows := model.UpdateUser(user)
 	core.Respond(w, map[string]int64{core.RowsAffected: rows})
-}
+} */

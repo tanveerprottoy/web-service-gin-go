@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"txp/web-service-gin/src/modules/user/entity"
@@ -10,16 +11,25 @@ import (
 )
 
 type UserService struct {
-	userRepositoy := UsereUserRepositoy{}
+	repo *UserRepository
 }
 
-func (u *UserService) GetUsers(ctx *gin.Context) (int, error, []entity.User) {
+func (u *UserService) FindUsers(ctx *gin.Context) (
+	[]entity.User,
+	error,
+) {
 	// for seek/key-set pagination
 	lastIdStr := ctx.Query(util.LastId)
-	lastId, err := strconv.Atoi(lastIdStr)
+	_, err := strconv.Atoi(lastIdStr)
 	if err != nil {
-		return http.StatusBadRequest, err, []entity.User{}
+		ctx.AbortWithError(
+			http.StatusNotFound,
+			errors.New(
+				util.NotFound,
+			),
+		)
+		return []entity.User{}, err
 	}
-	users := UserRepositoy.GetUsers()
-	return users
+	users := u.repo.FindAll()
+	return users, nil
 }

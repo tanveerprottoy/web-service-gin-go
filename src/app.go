@@ -1,14 +1,13 @@
-package app
+package src
 
 import (
 	"io/ioutil"
 	"log"
-	"github.com/gin-gonic/gin"
 )
 
 // App struct
 type App struct {
-	Router *Router
+	router *Router
 }
 
 func (app *App) discardLog() {
@@ -19,18 +18,12 @@ func (app *App) discardLog() {
 func (app *App) Init() {
 	// discard log in production
 	app.discardLog()
-	datum.Init()
-	app.Router = &Router{}
-	app.Router.Init()
-	app.initCOS()
+	// data.Init()
+	app.router = &Router{}
+	app.router.Init()
 }
 
 // Run app
 func (app *App) Run() {
-	log.Fatal(
-		http.ListenAndServe(
-			":3000",
-			app.Router.Mux,
-		),
-	)
+	app.router.run()
 }
