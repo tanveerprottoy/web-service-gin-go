@@ -6,9 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"txp/web-service-gin/src/core"
-	"txp/web-service-gin/src/util"
-
-	"github.com/IBM/ibm-cos-sdk-go/private/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,21 +13,21 @@ type UserHandler struct {
 	userService *UserService
 }
 
-func (u *UserHandler) GetUsers(c *gin.Context) {
+func (u *UserHandler) GetUsers(ctx *gin.Context) {
 	s, err, p := u.userService.GetUsers(
-		c,
+		ctx,
 	)
 	if err != nil {
 		util.RespondError(
 			s,
 			err,
-			c,
+			ctx,
 		)
 	}
 	util.Respond(
 		s,
 		p,
-		c,
+		ctx,
 	)
 }
 

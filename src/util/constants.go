@@ -1,5 +1,9 @@
 package util
 
+const ApiPattern = "/api"
+const RootPattern = "/"
+const V1 = "/v1"
+const UserPattern = "/users"
 const ContextKey = "userId"
 const UrlKeyId = "id"
 const UrlKeyLastId = "lastId"
@@ -12,3 +16,4 @@ const LastId = "lastId"
 const BucketName = "com.biyelap.main"
 const BucketRegion = "us-geo"
 const BucketNameTest = "com.biyelap.test"
+const InternalServerError = "Internal Server Error"

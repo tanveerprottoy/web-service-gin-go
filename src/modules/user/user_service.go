@@ -10,22 +10,16 @@ import (
 )
 
 type UserService struct {
-	
+	userRepositoy := UsereUserRepositoy{}
 }
 
-func (u *UserService) GetUsers(c *gin.Context) (int, error, []entity.User) {
+func (u *UserService) GetUsers(ctx *gin.Context) (int, error, []entity.User) {
 	// for seek/key-set pagination
-	lastIdStr := c.Query(util.LastId)
+	lastIdStr := ctx.Query(util.LastId)
 	lastId, err := strconv.Atoi(lastIdStr)
 	if err != nil {
 		return http.StatusBadRequest, err, []entity.User{}
 	}
-	users := UserRepositoy.GetUsers(
-		id,
-		lastId,
-		gender,
-		religion,
-		maritalStatus,
-	)
+	users := UserRepositoy.GetUsers()
 	return users
 }

@@ -1,26 +1,28 @@
 package app
 
 import (
+	"txp/web-service-gin/src/core/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
 // Router struct
 type Router struct {
-	Engine      gin.Engine
+	Engine gin.Engine
 }
-
-// BasePattern path
-const BasePattern = "/v1/api"
-const RootPattern = "/"
-const UserPattern = "/users"
 
 func (router *Router) Init() {
 	router.Engine = *gin.Default()
+	router.registerMiddlewares()
 	router.registerRoutes()
 }
 
-func (router *Router) registerRoutes() {
-	
+func (router *Router) registerMiddlewares() {
+	router.Engine.Use(
+		middleware.ErrorHandler,
+	)
 }
 
+func (router *Router) registerRoutes() {
 
+}
