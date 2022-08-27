@@ -3,6 +3,7 @@ package src
 import (
 	"io/ioutil"
 	"log"
+	"txp/web-service-gin/src/data"
 )
 
 // App struct
@@ -10,20 +11,20 @@ type App struct {
 	router *Router
 }
 
-func (app *App) discardLog() {
+func (a *App) discardLog() {
 	log.SetOutput(ioutil.Discard)
 }
 
 // Init app
-func (app *App) Init() {
+func (a *App) Init() {
 	// discard log in production
-	app.discardLog()
-	// data.Init()
-	app.router = &Router{}
-	app.router.Init()
+	// a.discardLog()
+	data.Init()
+	a.router = &Router{}
+	a.router.Init()
 }
 
 // Run app
-func (app *App) Run() {
-	app.router.run()
+func (a *App) Run() {
+	a.router.run()
 }

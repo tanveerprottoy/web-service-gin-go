@@ -13,36 +13,26 @@ type Router struct {
 	Engine *gin.Engine
 }
 
-func (router *Router) Init() {
-	router.Engine = gin.Default()
-	router.registerMiddlewares()
-	router.registerRoutes()
-}
-
-func (router *Router) registerMiddlewares() {
-	router.Engine.Use(
-		middleware.ErrorHandler,
-	)
-}
-
-func (router *Router) registerRoutes() {
-	registerUserRoutes(
-		router,
+func (r *Router) Init() {
+	r.Engine = gin.Default()
+	// r.registerMiddlewares()
+	r.registerUserRoutes(
 		util.V1,
 	)
 }
 
-func (router *Router) run() {
-	router.Engine.Run(":8080")
+func (r *Router) registerMiddlewares() {
+	r.Engine.Use(
+		middleware.ErrorHandler,
+	)
 }
 
-func registerUserRoutes(
-	router *Router,
+func (r *Router) registerUserRoutes(
 	version string,
 ) {
 	handler := &user.UserHandler{}
 	handler.InitDependencies()
-	group := router.Engine.Group(
+	group := r.Engine.Group(
 		util.ApiPattern + version + util.UsersPattern,
 	)
 	{
@@ -50,9 +40,21 @@ func registerUserRoutes(
 			util.RootPattern,
 			handler.FindUsers,
 		)
-		/* group.GET(
-			util.RootPattern + ":id",
-			handler.FindUsers,
-		) */
+		group.GET(
+			util.RootPattern+":id",
+			handler.FindUser,
+		)
+		group.POST(
+			util.RootPattern,
+			handler.CreateUser,
+		)
+		group.PATCH(
+			util.RootPattern+":id",
+			handler.UpdateUser,
+		)
 	}
+}
+
+func (r *Router) run() {
+	r.Engine.Run(":8080")
 }

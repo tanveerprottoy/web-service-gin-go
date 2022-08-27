@@ -7,9 +7,9 @@ import (
 func Respond(
 	s int,
 	p interface{},
-	c *gin.Context,
+	ctx *gin.Context,
 ) {
-	c.JSON(
+	ctx.JSON(
 		s,
 		p,
 	)
@@ -18,9 +18,9 @@ func Respond(
 func RespondError(
 	s int,
 	err error,
-	c *gin.Context,
+	ctx *gin.Context,
 ) {
-	c.AbortWithError(
+	ctx.AbortWithError(
 		s,
 		err,
 	)
