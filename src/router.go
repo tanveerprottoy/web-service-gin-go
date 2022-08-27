@@ -2,7 +2,7 @@ package src
 
 import (
 	"txp/web-service-gin/src/core/middleware"
-	"txp/web-service-gin/src/modules/user"
+	"txp/web-service-gin/src/module/user"
 	"txp/web-service-gin/src/util"
 
 	"github.com/gin-gonic/gin"

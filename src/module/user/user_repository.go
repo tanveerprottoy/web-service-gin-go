@@ -1,8 +1,8 @@
 package user
 
 import (
-	"txp/web-service-gin/src/modules/user/dto"
-	"txp/web-service-gin/src/modules/user/entity"
+	"txp/web-service-gin/src/module/user/dto"
+	"txp/web-service-gin/src/module/user/entity"
 )
 
 type UserRepository struct {

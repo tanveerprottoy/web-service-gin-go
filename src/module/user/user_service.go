@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
-	"txp/web-service-gin/src/modules/user/entity"
+	"txp/web-service-gin/src/module/user/entity"
 	"txp/web-service-gin/src/util"
 
 	"github.com/gin-gonic/gin"
