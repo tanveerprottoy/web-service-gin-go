@@ -15,7 +15,7 @@ type Router struct {
 
 func (r *Router) Init() {
 	r.Engine = gin.Default()
-	// r.registerMiddlewares()
+	r.registerMiddlewares()
 	r.registerUserRoutes(
 		util.V1,
 	)
@@ -51,6 +51,10 @@ func (r *Router) registerUserRoutes(
 		group.PATCH(
 			util.RootPattern+":id",
 			handler.UpdateUser,
+		)
+		group.DELETE(
+			util.RootPattern+":id",
+			handler.DeleteUser,
 		)
 	}
 }

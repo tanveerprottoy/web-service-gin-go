@@ -1,10 +1,6 @@
 package user
 
 import (
-	"errors"
-	"net/http"
-	"txp/web-service-gin/src/util"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,57 +16,31 @@ func (u *UserHandler) InitDependencies() {
 }
 
 func (u *UserHandler) CreateUser(ctx *gin.Context) {
-	p := u.service.CreateUser(
-		ctx,
-	)
-	if p == -1 {
-		util.RespondError(
-			http.StatusBadRequest,
-			errors.New(
-				util.BadRequest,
-			),
-			ctx,
-		)
-		return
-	}
-	util.Respond(
-		http.StatusCreated,
-		map[string]bool{
-			"created": true,
-		},
+	u.service.CreateUser(
 		ctx,
 	)
 }
 
 func (u *UserHandler) FindUsers(ctx *gin.Context) {
-	p := u.service.FindUsers(
-		ctx,
-	)
-	util.Respond(
-		http.StatusOK,
-		p,
+	u.service.FindUsers(
 		ctx,
 	)
 }
 
 func (u *UserHandler) FindUser(ctx *gin.Context) {
-	p := u.service.FindUsers(
-		ctx,
-	)
-	util.Respond(
-		http.StatusOK,
-		p,
+	u.service.FindUser(
 		ctx,
 	)
 }
 
 func (u *UserHandler) UpdateUser(ctx *gin.Context) {
-	p := u.service.UpdateUser(
+	u.service.UpdateUser(
 		ctx,
 	)
-	util.Respond(
-		http.StatusOK,
-		p,
+}
+
+func (u *UserHandler) DeleteUser(ctx *gin.Context) {
+	u.service.DeleteUser(
 		ctx,
 	)
 }

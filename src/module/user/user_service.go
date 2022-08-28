@@ -1,6 +1,7 @@
 package user
 
 import (
+	"database/sql"
 	"errors"
 	"net/http"
 	"txp/web-service-gin/src/module/user/dto"
@@ -14,80 +15,169 @@ type UserService struct {
 	repo *UserRepository
 }
 
-func (u *UserService) CreateUser(ctx *gin.Context) interface{} {
-	var lastId int
+func (u *UserService) CreateUser(ctx *gin.Context) {
 	var p *dto.CreateUpdateUserBody
 	err := ctx.ShouldBindJSON(&p)
 	if err != nil {
-		ctx.AbortWithError(
+		util.ErrorAbort(
 			http.StatusBadRequest,
-			errors.New(
-				util.BadRequest,
-			),
+			util.BadRequest,
+			ctx,
 		)
-		return -1
+		return
 	}
-	lastId = u.repo.Create(
+	_, err = u.repo.Create(
 		p,
 	)
-	return lastId
+	if err != nil {
+		util.ErrorAbort(
+			http.StatusInternalServerError,
+			err.Error(),
+			ctx,
+		)
+		return
+	}
+	util.Respond(
+		http.StatusCreated,
+		map[string]bool{
+			"created": true,
+		},
+		ctx,
+	)
 }
 
-func (u *UserService) FindUsers(ctx *gin.Context) []entity.User {
-	users := u.repo.FindAll()
-	return users
+func (u *UserService) FindUsers(ctx *gin.Context) {
+	users, err := u.repo.FindAll()
+	if err != nil {
+		util.ErrorAbort(
+			http.StatusBadRequest,
+			util.BadRequest,
+			ctx,
+		)
+		return
+	}
+	util.Respond(
+		http.StatusOK,
+		users,
+		ctx,
+	)
 }
 
-func (u *UserService) FindUser(ctx *gin.Context) entity.User {
+func (u *UserService) FindUser(ctx *gin.Context) {
 	id, exists := ctx.Params.Get("id")
 	if !exists {
-		ctx.AbortWithError(
+		util.ErrorAbort(
 			http.StatusBadRequest,
-			errors.New(
-				util.BadRequest,
-			),
+			util.BadRequest,
+			ctx,
 		)
-		return entity.User{}
+		return
 	}
 	user, err := u.repo.FindOne(
 		id,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			util.ErrorAbort(
+				http.StatusNotFound,
+				util.NotFound,
+				ctx,
+			)
+			return
+		}
 		ctx.AbortWithError(
 			http.StatusInternalServerError,
 			errors.New(
 				util.InternalServerError,
 			),
 		)
+		/* util.ErrorAbort(
+			http.StatusInternalServerError,
+			util.InternalServerError,
+			ctx,
+		) */
+		return
 	}
-	return user
+	util.Respond(
+		http.StatusOK,
+		user,
+		ctx,
+	)
 }
 
-func (u *UserService) UpdateUser(ctx *gin.Context) interface{} {
+func (u *UserService) UpdateUser(ctx *gin.Context) {
 	id, exists := ctx.Params.Get("id")
 	if !exists {
-		ctx.AbortWithError(
+		util.ErrorAbort(
 			http.StatusBadRequest,
-			errors.New(
-				util.BadRequest,
-			),
+			util.BadRequest,
+			ctx,
 		)
-		return -1
+		return
 	}
 	var p *entity.User
 	err := ctx.ShouldBindJSON(&p)
 	if err != nil {
-		ctx.AbortWithError(
+		util.ErrorAbort(
+			http.StatusBadRequest,
+			util.BadRequest,
+			ctx,
+		)
+		return
+	}
+	rows, err := u.repo.Update(
+		id,
+		p,
+	)
+	if err != nil {
+		util.ErrorAbort(
+			http.StatusInternalServerError,
+			util.InternalServerError,
+			ctx,
+		)
+		return
+	}
+	if rows > 0 {
+		util.Respond(
+			http.StatusOK,
+			map[string]int64{util.RowsAffected: rows},
+			ctx,
+		)
+		return
+	}
+	util.ErrorAbort(
+		http.StatusInternalServerError,
+		util.InternalServerError,
+		ctx,
+	)
+}
+
+func (u *UserService) DeleteUser(ctx *gin.Context) {
+	id, exists := ctx.Params.Get("id")
+	if !exists {
+		util.RespondError(
 			http.StatusBadRequest,
 			errors.New(
 				util.BadRequest,
 			),
+			ctx,
 		)
-		return -1
+		return
 	}
-	rows := u.repo.Update(
+	rows, err := u.repo.Delete(
 		id,
-		p,
 	)
-	return map[string]int64{util.RowsAffected: rows}
+	if err != nil {
+		util.ErrorAbort(
+			http.StatusInternalServerError,
+			util.InternalServerError,
+			ctx,
+		)
+		return
+	}
+	util.Respond(
+		http.StatusOK,
+		map[string]int64{util.RowsAffected: rows},
+		ctx,
+	)
 }

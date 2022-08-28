@@ -5,23 +5,23 @@ import (
 )
 
 func Respond(
-	s int,
+	c int,
 	p interface{},
 	ctx *gin.Context,
 ) {
 	ctx.JSON(
-		s,
+		c,
 		p,
 	)
 }
 
 func RespondError(
-	s int,
+	c int,
 	err error,
 	ctx *gin.Context,
 ) {
 	ctx.AbortWithError(
-		s,
+		c,
 		err,
 	)
 }
