@@ -1,13 +1,20 @@
 package middleware
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
-func ErrorHandler(ctx *gin.Context) {
+func JSONMiddleware(ctx *gin.Context) {
+	ctx.Writer.Header().Set("Content-Type", "application/json")
+	ctx.Next()
+}
+
+func ErrorMiddleware(ctx *gin.Context) {
 	ctx.Next()
 	if len(ctx.Errors) > 0 {
 		ctx.JSON(
 			-1,
-			gin.H{"error": ctx.Errors[0].Error()},
+			map[string]interface{}{"error": ctx.Errors[0].Error()},
 		)
 	}
 }

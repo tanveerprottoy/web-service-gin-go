@@ -15,7 +15,7 @@ type UserService struct {
 	repo *UserRepository
 }
 
-func (u *UserService) CreateUser(ctx *gin.Context) {
+func (s *UserService) Create(ctx *gin.Context) {
 	var p *dto.CreateUpdateUserBody
 	err := ctx.ShouldBindJSON(&p)
 	if err != nil {
@@ -26,7 +26,7 @@ func (u *UserService) CreateUser(ctx *gin.Context) {
 		)
 		return
 	}
-	_, err = u.repo.Create(
+	_, err = s.repo.Create(
 		p,
 	)
 	if err != nil {
@@ -46,8 +46,8 @@ func (u *UserService) CreateUser(ctx *gin.Context) {
 	)
 }
 
-func (u *UserService) FindUsers(ctx *gin.Context) {
-	users, err := u.repo.FindAll()
+func (s *UserService) FindAll(ctx *gin.Context) {
+	users, err := s.repo.FindAll()
 	if err != nil {
 		util.ErrorAbort(
 			http.StatusBadRequest,
@@ -63,7 +63,7 @@ func (u *UserService) FindUsers(ctx *gin.Context) {
 	)
 }
 
-func (u *UserService) FindUser(ctx *gin.Context) {
+func (s *UserService) FindOne(ctx *gin.Context) {
 	id, exists := ctx.Params.Get("id")
 	if !exists {
 		util.ErrorAbort(
@@ -73,7 +73,7 @@ func (u *UserService) FindUser(ctx *gin.Context) {
 		)
 		return
 	}
-	user, err := u.repo.FindOne(
+	user, err := s.repo.FindOne(
 		id,
 	)
 	if err != nil {
@@ -105,7 +105,7 @@ func (u *UserService) FindUser(ctx *gin.Context) {
 	)
 }
 
-func (u *UserService) UpdateUser(ctx *gin.Context) {
+func (s *UserService) Update(ctx *gin.Context) {
 	id, exists := ctx.Params.Get("id")
 	if !exists {
 		util.ErrorAbort(
@@ -125,7 +125,7 @@ func (u *UserService) UpdateUser(ctx *gin.Context) {
 		)
 		return
 	}
-	rows, err := u.repo.Update(
+	rows, err := s.repo.Update(
 		id,
 		p,
 	)
@@ -152,7 +152,7 @@ func (u *UserService) UpdateUser(ctx *gin.Context) {
 	)
 }
 
-func (u *UserService) DeleteUser(ctx *gin.Context) {
+func (s *UserService) Delete(ctx *gin.Context) {
 	id, exists := ctx.Params.Get("id")
 	if !exists {
 		util.RespondError(
@@ -164,7 +164,7 @@ func (u *UserService) DeleteUser(ctx *gin.Context) {
 		)
 		return
 	}
-	rows, err := u.repo.Delete(
+	rows, err := s.repo.Delete(
 		id,
 	)
 	if err != nil {

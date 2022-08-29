@@ -5,22 +5,22 @@ import (
 )
 
 func HandleReq(
-	code int,
-	payload interface{},
+	c int,
+	p interface{},
 	err error,
-	c *gin.Context,
+	ctx *gin.Context,
 ) {
 	if err != nil {
 		RespondError(
-			code,
-			err,
 			c,
+			err,
+			ctx,
 		)
 		return
 	}
 	Respond(
-		code,
-		payload,
 		c,
+		p,
+		ctx,
 	)
 }

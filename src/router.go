@@ -2,6 +2,7 @@ package src
 
 import (
 	"txp/web-service-gin/src/core/middleware"
+	"txp/web-service-gin/src/module/content"
 	"txp/web-service-gin/src/module/user"
 	"txp/web-service-gin/src/util"
 
@@ -19,42 +20,78 @@ func (r *Router) Init() {
 	r.registerUserRoutes(
 		util.V1,
 	)
+	r.registerContentRoutes(
+		util.V1,
+	)
 }
 
 func (r *Router) registerMiddlewares() {
 	r.Engine.Use(
-		middleware.ErrorHandler,
+		middleware.JSONMiddleware,
+		middleware.ErrorMiddleware,
 	)
 }
 
 func (r *Router) registerUserRoutes(
 	version string,
 ) {
-	handler := &user.UserHandler{}
-	handler.InitDependencies()
+	h := &user.UserHandler{}
+	h.InitDependencies()
 	group := r.Engine.Group(
 		util.ApiPattern + version + util.UsersPattern,
 	)
 	{
 		group.GET(
 			util.RootPattern,
-			handler.FindUsers,
+			h.FindAll,
 		)
 		group.GET(
 			util.RootPattern+":id",
-			handler.FindUser,
+			h.FindOne,
 		)
 		group.POST(
 			util.RootPattern,
-			handler.CreateUser,
+			h.Create,
 		)
 		group.PATCH(
 			util.RootPattern+":id",
-			handler.UpdateUser,
+			h.Update,
 		)
 		group.DELETE(
 			util.RootPattern+":id",
-			handler.DeleteUser,
+			h.Delete,
+		)
+	}
+}
+
+func (r *Router) registerContentRoutes(
+	version string,
+) {
+	h := &content.ContentHandler{}
+	h.InitDependencies()
+	group := r.Engine.Group(
+		util.ApiPattern + version + util.ContentsPattern,
+	)
+	{
+		group.GET(
+			util.RootPattern,
+			h.FindAll,
+		)
+		group.GET(
+			util.RootPattern+":id",
+			h.FindOne,
+		)
+		group.POST(
+			util.RootPattern,
+			h.Create,
+		)
+		group.PATCH(
+			util.RootPattern+":id",
+			h.Update,
+		)
+		group.DELETE(
+			util.RootPattern+":id",
+			h.Delete,
 		)
 	}
 }

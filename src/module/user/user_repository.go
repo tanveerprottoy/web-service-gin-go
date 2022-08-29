@@ -89,7 +89,7 @@ func (r *UserRepository) Delete(id string) (
 	error,
 ) {
 	q := "DELETE FROM users WHERE id = $1"
-	rows, err := data.Db.Query(
+	res, err := data.Db.Exec(
 		q,
 		id,
 	)
@@ -97,6 +97,5 @@ func (r *UserRepository) Delete(id string) (
 		log.Println(err)
 		return -1, err
 	}
-	log.Println(rows)
-	return 1, nil // data.GetRowsAffected(rows)
+	return data.GetRowsAffected(res), nil
 }

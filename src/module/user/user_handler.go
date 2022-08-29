@@ -8,39 +8,39 @@ type UserHandler struct {
 	service *UserService
 }
 
-func (u *UserHandler) InitDependencies() {
+func (h *UserHandler) InitDependencies() {
 	repo := &UserRepository{}
-	u.service = &UserService{
+	h.service = &UserService{
 		repo: repo,
 	}
 }
 
-func (u *UserHandler) CreateUser(ctx *gin.Context) {
-	u.service.CreateUser(
+func (h *UserHandler) Create(ctx *gin.Context) {
+	h.service.Create(
 		ctx,
 	)
 }
 
-func (u *UserHandler) FindUsers(ctx *gin.Context) {
-	u.service.FindUsers(
+func (h *UserHandler) FindAll(ctx *gin.Context) {
+	h.service.FindAll(
 		ctx,
 	)
 }
 
-func (u *UserHandler) FindUser(ctx *gin.Context) {
-	u.service.FindUser(
+func (h *UserHandler) FindOne(ctx *gin.Context) {
+	h.service.FindOne(
 		ctx,
 	)
 }
 
-func (u *UserHandler) UpdateUser(ctx *gin.Context) {
-	u.service.UpdateUser(
+func (h *UserHandler) Update(ctx *gin.Context) {
+	h.service.Update(
 		ctx,
 	)
 }
 
-func (u *UserHandler) DeleteUser(ctx *gin.Context) {
-	u.service.DeleteUser(
+func (h *UserHandler) Delete(ctx *gin.Context) {
+	h.service.Delete(
 		ctx,
 	)
 }
