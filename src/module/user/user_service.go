@@ -16,8 +16,8 @@ type UserService struct {
 }
 
 func (s *UserService) Create(ctx *gin.Context) {
-	var p *dto.CreateUpdateUserBody
-	err := ctx.ShouldBindJSON(&p)
+	var b *dto.CreateUpdateUserBody
+	err := ctx.ShouldBindJSON(&b)
 	if err != nil {
 		util.ErrorAbort(
 			http.StatusBadRequest,
@@ -27,7 +27,7 @@ func (s *UserService) Create(ctx *gin.Context) {
 		return
 	}
 	_, err = s.repo.Create(
-		p,
+		b,
 	)
 	if err != nil {
 		util.ErrorAbort(
@@ -115,8 +115,8 @@ func (s *UserService) Update(ctx *gin.Context) {
 		)
 		return
 	}
-	var p *entity.User
-	err := ctx.ShouldBindJSON(&p)
+	var b *entity.User
+	err := ctx.ShouldBindJSON(&b)
 	if err != nil {
 		util.ErrorAbort(
 			http.StatusBadRequest,
@@ -127,7 +127,7 @@ func (s *UserService) Update(ctx *gin.Context) {
 	}
 	rows, err := s.repo.Update(
 		id,
-		p,
+		b,
 	)
 	if err != nil {
 		util.ErrorAbort(

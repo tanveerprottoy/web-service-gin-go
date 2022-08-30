@@ -6,12 +6,12 @@ import (
 
 func Respond(
 	c int,
-	p interface{},
+	d interface{},
 	ctx *gin.Context,
 ) {
 	ctx.JSON(
 		c,
-		p,
+		d,
 	)
 }
 

@@ -3,8 +3,8 @@ package util
 import "golang.org/x/crypto/bcrypt"
 
 // GenerateHashFromPassword generates password hash
-func GenerateHashFromPassword(p string) string {
-	h, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.DefaultCost)
+func GenerateHashFromPassword(d string) string {
+	h, err := bcrypt.GenerateFromPassword([]byte(d), bcrypt.DefaultCost)
 	if err != nil {
 		return ""
 	}
@@ -12,8 +12,8 @@ func GenerateHashFromPassword(p string) string {
 }
 
 // CompareHashAndPassword compares pass with hash
-func CompareHashAndPassword(h string, p string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(h), []byte(p))
+func CompareHashAndPassword(h string, d string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(h), []byte(d))
 	if err != nil {
 		return false
 	}

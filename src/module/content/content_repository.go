@@ -12,7 +12,7 @@ import (
 type ContentRepository struct {
 }
 
-func (r *ContentRepository) Create(p *dto.CreateUpdateContentBody) (
+func (r *ContentRepository) Create(d *dto.CreateUpdateContentBody) (
 	int,
 	error,
 ) {
@@ -25,7 +25,7 @@ func (r *ContentRepository) Create(p *dto.CreateUpdateContentBody) (
 		log.Println(err)
 		return -1, err
 	}
-	err = stmt.Get(&lastId, p)
+	err = stmt.Get(&lastId, d)
 	if err != nil {
 		log.Println(err)
 	}

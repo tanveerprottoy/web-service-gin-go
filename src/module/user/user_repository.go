@@ -12,7 +12,7 @@ import (
 type UserRepository struct {
 }
 
-func (r *UserRepository) Create(p *dto.CreateUpdateUserBody) (
+func (r *UserRepository) Create(d *dto.CreateUpdateUserBody) (
 	int,
 	error,
 ) {
@@ -25,7 +25,7 @@ func (r *UserRepository) Create(p *dto.CreateUpdateUserBody) (
 		log.Println(err)
 		return -1, err
 	}
-	err = stmt.Get(&lastId, p)
+	err = stmt.Get(&lastId, d)
 	if err != nil {
 		log.Println(err)
 	}

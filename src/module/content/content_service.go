@@ -16,8 +16,8 @@ type ContentService struct {
 }
 
 func (s *ContentService) Create(ctx *gin.Context) {
-	var p *dto.CreateUpdateContentBody
-	err := ctx.ShouldBindJSON(&p)
+	var b *dto.CreateUpdateContentBody
+	err := ctx.ShouldBindJSON(&b)
 	if err != nil {
 		util.ErrorAbort(
 			http.StatusBadRequest,
@@ -27,7 +27,7 @@ func (s *ContentService) Create(ctx *gin.Context) {
 		return
 	}
 	_, err = s.repo.Create(
-		p,
+		b,
 	)
 	if err != nil {
 		util.ErrorAbort(
@@ -115,8 +115,8 @@ func (s *ContentService) Update(ctx *gin.Context) {
 		)
 		return
 	}
-	var p *entity.Content
-	err := ctx.ShouldBindJSON(&p)
+	var b *entity.Content
+	err := ctx.ShouldBindJSON(&b)
 	if err != nil {
 		util.ErrorAbort(
 			http.StatusBadRequest,
@@ -127,7 +127,7 @@ func (s *ContentService) Update(ctx *gin.Context) {
 	}
 	rows, err := s.repo.Update(
 		id,
-		p,
+		b,
 	)
 	if err != nil {
 		util.ErrorAbort(

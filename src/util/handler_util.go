@@ -6,7 +6,7 @@ import (
 
 func HandleReq(
 	c int,
-	p interface{},
+	d interface{},
 	err error,
 	ctx *gin.Context,
 ) {
@@ -20,7 +20,7 @@ func HandleReq(
 	}
 	Respond(
 		c,
-		p,
+		d,
 		ctx,
 	)
 }
