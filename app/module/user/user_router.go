@@ -1,8 +1,8 @@
 package user
 
 /* import (
-	"txp/web-service-gin/src"
-	"txp/web-service-gin/src/util"
+	"txp/web-service-gin/app"
+	"txp/web-service-gin/app/util"
 )
 
 func RegisterUserRoutes(

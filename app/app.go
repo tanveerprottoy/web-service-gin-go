@@ -1,9 +1,9 @@
-package src
+package app
 
 import (
 	"io/ioutil"
 	"log"
-	"txp/web-service-gin/src/data"
+	"txp/web-service-gin/app/data"
 )
 
 // App struct

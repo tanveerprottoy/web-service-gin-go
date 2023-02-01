@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
-	"txp/web-service-gin/src/module/user/dto"
-	"txp/web-service-gin/src/module/user/entity"
-	"txp/web-service-gin/src/util"
+	"txp/web-service-gin/app/module/user/dto"
+	"txp/web-service-gin/app/module/user/entity"
+	"txp/web-service-gin/app/util"
 
 	"github.com/gin-gonic/gin"
 )

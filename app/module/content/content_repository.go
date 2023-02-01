@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"txp/web-service-gin/src/data"
-	"txp/web-service-gin/src/module/content/dto"
-	"txp/web-service-gin/src/module/content/entity"
+	"txp/web-service-gin/app/data"
+	"txp/web-service-gin/app/module/content/dto"
+	"txp/web-service-gin/app/module/content/entity"
 )
 
 type ContentRepository struct {

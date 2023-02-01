@@ -1,9 +1,9 @@
 package main
 
-import "txp/web-service-gin/src"
+import "txp/web-service-gin/app"
 
 func main() {
-	app := &src.App{}
+	app := &app.App{}
 	app.Init()
 	app.Run()
 }

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"txp/web-service-gin/src/data"
-	"txp/web-service-gin/src/module/user/dto"
-	"txp/web-service-gin/src/module/user/entity"
+	"txp/web-service-gin/app/data"
+	"txp/web-service-gin/app/module/user/dto"
+	"txp/web-service-gin/app/module/user/entity"
 )
 
 type UserRepository struct {

@@ -1,10 +1,10 @@
-package src
+package app
 
 import (
-	"txp/web-service-gin/src/core/middleware"
-	"txp/web-service-gin/src/module/content"
-	"txp/web-service-gin/src/module/user"
-	"txp/web-service-gin/src/util"
+	"txp/web-service-gin/app/core/middleware"
+	"txp/web-service-gin/app/module/content"
+	"txp/web-service-gin/app/module/user"
+	"txp/web-service-gin/app/util"
 
 	"github.com/gin-gonic/gin"
 )
